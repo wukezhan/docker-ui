@@ -27,7 +27,6 @@ if($argv){
     $url = $argv[1]?: '/';
 }else{
     $url = $_SERVER['REQUEST_URI']?: '/';
-    //
     if($pos = strpos($url, '?')){
         $url = substr($url, 0, $pos);
     }
