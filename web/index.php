@@ -8,13 +8,6 @@ define('VENDOR_PATH', LIB_PATH . '/vendor');
 
 air\loader::autoload();
 
-if (isset($_GET['debug'])) {
-    xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
-
-    define('START_TIME', microtime(true));
-    define('START_MEMORY_USAGE', memory_get_usage());
-}
-
 air\config::set([
     'app' => [
         'view' => [
@@ -34,6 +27,10 @@ if($argv){
     $url = $argv[1]?: '/';
 }else{
     $url = $_SERVER['REQUEST_URI']?: '/';
+    //
+    if($pos = strpos($url, '?')){
+        $url = substr($url, 0, $pos);
+    }
 }
 
 $router = new air\router();
@@ -45,4 +42,4 @@ $router->set_rules([
 $app = new air\app();
 $app->set_router($router)->run();
 
-$xhprof_data = xhprof_disable();
+
